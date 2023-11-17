@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Car from '../assets/car.png';
+
 
 function HistoricoVeiculo() {
   const [veiculoEncontrado, setVeiculoEncontrado] = useState(false);
@@ -18,7 +20,7 @@ function HistoricoVeiculo() {
       <div className="flex flex-col md:flex-row items-center justify-between bg-white rounded-lg border-blue-500 border-2 p-6 shadow-md mb-10">
         {/* Metade com a Imagem do Veículo */}
         <div className="md:w-1/2 p-4">
-          <img src="path-to-your-vehicle-image.jpg" alt="Veículo" className="rounded-lg" />
+          <img src={Car} alt="Veículo" className="rounded-lg" />
         </div>
         {/* Metade com o Título e Campo de Busca */}
         <div className="md:w-1/2 p-4 flex flex-col items-start justify-center">
