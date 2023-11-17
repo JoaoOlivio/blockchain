@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  width: 10px; /* Largura da barra de rolagem */
+}
+
+/* Trata da caixa de rolagem (onde a barra de rolagem se move) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Cor de fundo da caixa de rolagem */
+}
+
+/* Estilo da barra de rolagem (o controle que é arrastado) */
+::-webkit-scrollbar-thumb {
+  background: #3b82f6; /* Cor da barra de rolagem, um azul do Tailwind */
+  border-radius: 5px; /* Bordas arredondadas para a barra de rolagem */
+}
+
+/* Estado "hover" da barra de rolagem */
+::-webkit-scrollbar-thumb:hover {
+  background: #2563eb; /* Cor da barra de rolagem quando passa o mouse, um azul mais escuro do Tailwind */
+}
