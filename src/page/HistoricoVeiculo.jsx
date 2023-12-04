@@ -7,22 +7,17 @@ function HistoricoVeiculo() {
   const [dadosVeiculo, setDadosVeiculo] = useState(null); // Supõe-se que você irá buscar esses dados
 
   const buscarVeiculo = () => {
-    // Lógica de busca do veículo
-    // Se o veículo for encontrado, setar os dados do veículo e mudar 'veiculoEncontrado' para 'true'
-    // setDadosVeiculo(resultadoDaBusca);
+   
     setVeiculoEncontrado(true);
   };
 
   return (
     <div className="container mx-auto p-4">
 
-      {/* Card Superior com Imagem do Veículo e Campo de Busca */}
       <div className="flex flex-col md:flex-row items-center justify-between bg-white rounded-lg border-blue-500 border-2 p-6 shadow-md mb-10">
-        {/* Metade com a Imagem do Veículo */}
         <div className="md:w-1/2 p-4">
           <img src={Car} alt="Veículo" className="rounded-lg" />
         </div>
-        {/* Metade com o Título e Campo de Busca */}
         <div className="md:w-1/2 p-4 flex flex-col items-start justify-center">
           <h2 className="text-2xl font-bold mb-4">Consulta de Histórico</h2>
           <div className="w-full">

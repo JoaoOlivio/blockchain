@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Cadastrar from '../assets/registrar.png';
 import Transferir from '../assets/transferir.png';
 import Consultar from '../assets/consultar.png';
@@ -9,6 +9,21 @@ function Principal() {
     const carrosCadastrados = [
         // ...dados dos carros
     ];
+
+    const [chassis, setChassis] = useState([]);
+
+    useEffect(() => {
+        const fetchChassis = async () => {
+            try {
+                const chassisList = await contract.methods.getVehicle().call();
+                setChassis(chassisList);
+            } catch (error) {
+                console.error("Erro ao buscar chassis:", error);
+            }
+        };
+
+        fetchChassis();
+    }, []);
 
     return (
         <div className="flex flex-col lg:flex-row bg-gray-100 min-h-screen p-10">
@@ -37,11 +52,9 @@ function Principal() {
                 {/* Lista de Carros Cadastrados */}
                 <div className="bg-white shadow rounded-lg p-6">
                     <h3 className="text-xl font-semibold mb-4">Carros Cadastrados</h3>
-                    {carrosCadastrados.map((carro) => (
-                        <div key={carro.id} className="flex items-center justify-between p-2 hover:bg-gray-50">
-                            <span>{carro.nome}</span>
-                            <span>{carro.localizacao}</span>
-                            <span>{carro.dataCadastro.toLocaleDateString()}</span>
+                    {chassis.map((chassi, index) => (
+                        <div key={index} className="flex items-center justify-between p-2 hover:bg-gray-50">
+                            <span>{chassi}</span>
                         </div>
                     ))}
                 </div>
