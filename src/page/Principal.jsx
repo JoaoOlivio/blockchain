@@ -4,18 +4,16 @@ import Transferir from '../assets/transferir.png';
 import Consultar from '../assets/consultar.png';
 import CalendarWidget from '../components/CalendarWidget';
 import { NavLink } from 'react-router-dom';
+import { contract } from '../config/block';
 
 function Principal() {
-    const carrosCadastrados = [
-        // ...dados dos carros
-    ];
 
     const [chassis, setChassis] = useState([]);
 
     useEffect(() => {
         const fetchChassis = async () => {
             try {
-                const chassisList = await contract.methods.getVehicle().call();
+                const chassisList = await contract.methods.getAllChassis().call();
                 setChassis(chassisList);
             } catch (error) {
                 console.error("Erro ao buscar chassis:", error);

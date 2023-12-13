@@ -17,57 +17,6 @@ const contractABIString = `
 				"internalType": "string",
 				"name": "_chassi",
 				"type": "string"
-			}
-		],
-		"name": "getVehicle",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "chassi",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "model",
-						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "year",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "color",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "placa",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "owner",
-						"type": "address"
-					}
-				],
-				"internalType": "struct VehicleRegistry.Vehicle",
-				"name": "",
-				"type": "tuple"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_chassi",
-				"type": "string"
 			},
 			{
 				"internalType": "string",
@@ -75,9 +24,9 @@ const contractABIString = `
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "_year",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"internalType": "string",
@@ -103,14 +52,136 @@ const contractABIString = `
 				"type": "string"
 			},
 			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
+				"internalType": "string",
+				"name": "_cpf",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_nome",
+				"type": "string"
 			}
 		],
 		"name": "transferVehicle",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllChassis",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_chassi",
+				"type": "string"
+			}
+		],
+		"name": "getTransferHistory",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "cpf",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "nome",
+						"type": "string"
+					}
+				],
+				"internalType": "struct VehicleRegistry.Transfer[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_chassi",
+				"type": "string"
+			}
+		],
+		"name": "getVehicle",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "chassi",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "model",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "year",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "color",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "placa",
+						"type": "string"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "cpf",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "nome",
+								"type": "string"
+							}
+						],
+						"internalType": "struct VehicleRegistry.Transfer[]",
+						"name": "transferHistory",
+						"type": "tuple[]"
+					}
+				],
+				"internalType": "struct VehicleRegistry.Vehicle",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -134,9 +205,9 @@ const contractABIString = `
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "year",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"internalType": "string",
@@ -147,11 +218,6 @@ const contractABIString = `
 				"internalType": "string",
 				"name": "placa",
 				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -163,7 +229,7 @@ const contractABIString = `
 // Convertendo a string da ABI em um objeto JavaScript
 const contractABI = JSON.parse(contractABIString);
 
-const contractAddress = '0x8e2d895c5faeed8be5e830835ca170249f3c860c';
+const contractAddress = '0x438e79aa89decfa243995a1d88aa44bb96f5f2d1';
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 export { web3, contract };

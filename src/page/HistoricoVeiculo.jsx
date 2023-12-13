@@ -1,15 +1,66 @@
 import React, { useState } from 'react';
 import Car from '../assets/car.png';
+import { contract } from '../config/block';
 
 
 function HistoricoVeiculo() {
   const [veiculoEncontrado, setVeiculoEncontrado] = useState(false);
   const [dadosVeiculo, setDadosVeiculo] = useState(null); // Supõe-se que você irá buscar esses dados
 
-  const buscarVeiculo = () => {
-   
-    setVeiculoEncontrado(true);
+  const [chassi, setChassi] = useState('');
+  const [historicoTransferencias, setHistoricoTransferencias] = useState([]);
+
+
+  const buscarVeiculo = async () => {
+    try {
+      const veiculo = await contract.methods.getVehicle(chassi).call();
+      await getTransferHistory(chassi);
+      setDadosVeiculo({
+        modelo: veiculo.model,
+        year: veiculo.year,
+        cor: veiculo.color,
+        placa: veiculo.placa,
+        chassi: veiculo.chassi
+      });
+      setVeiculoEncontrado(true);
+    } catch (error) {
+      console.error("Erro ao buscar veículo:", error);
+      setVeiculoEncontrado(false);
+    }
   };
+
+  const getTransferHistory = async (_chassi) => {
+    try {
+      const transfers = await contract.methods.getTransferHistory(_chassi).call();
+
+      const formattedTransfers = transfers.map(transfer => {
+        // Convertendo o timestamp de BigInt para Number antes de criar a data
+        const timestamp = Number(transfer.timestamp);
+
+        return {
+          // Usando o timestamp convertido
+          timestamp: new Date(timestamp * 1000).toLocaleString(),
+          cpf: transfer.cpf,
+          nome: transfer.nome
+        };
+      });
+
+      // Ordenando as transferências pela data, da mais recente para a mais antiga
+      formattedTransfers.sort((a, b) => {
+        // Se 'a' é mais recente que 'b', então coloque 'a' antes de 'b' (resultado negativo para a.sort()).
+        return new Date(b.timestamp) - new Date(a.timestamp);
+      });
+
+      console.log(formattedTransfers);
+
+
+      setHistoricoTransferencias(formattedTransfers);
+
+    } catch (error) {
+      console.error("Erro ao buscar o histórico de transferências:", error);
+    }
+  };
+
 
   return (
     <div className="container mx-auto p-4">
@@ -22,8 +73,10 @@ function HistoricoVeiculo() {
           <h2 className="text-2xl font-bold mb-4">Consulta de Histórico</h2>
           <div className="w-full">
             <input
-              type="search"
-              placeholder="Digite o chassi ou placa do veículo"
+              type="text"
+              value={chassi}
+              onChange={(e) => setChassi(e.target.value)}
+              placeholder="Digite o chassi do veículo"
               className="p-2 w-full border-2 border-gray-300 rounded-md shadow-sm"
             />
             <button
@@ -41,20 +94,21 @@ function HistoricoVeiculo() {
           <div className="md:w-1/2 p-4 border-r-2 rounded border-blue-500">
             <h3 className="text-xl font-bold mb-2">Detalhes do Veículo</h3>
             <ul>
-              <li><strong>Marca e Modelo:</strong> Ford Mustang</li>
-              <li><strong>Ano:</strong> 2020</li>
-              <li><strong>Cor:</strong> Azul</li>
-              <li><strong>Placa:</strong> ABC-1234</li>
+              <li><strong>Chassi:</strong> {dadosVeiculo?.chassi}</li>
+              <li><strong>Marca e Modelo:</strong> {dadosVeiculo?.modelo}</li>
+              <li><strong>Ano:</strong> {dadosVeiculo?.year}</li>
+              <li><strong>Cor:</strong> {dadosVeiculo?.cor}</li>
+              <li><strong>Placa:</strong> {dadosVeiculo?.placa}</li>
             </ul>
           </div>
           <div className="md:w-1/2 p-4">
             <h3 className="text-xl font-bold mb-2">Histórico de Transferência</h3>
             <ul className="overflow-auto h-48">
-              {/* Substitua com histórico real de transferências do veículo */}
-              <li className="px-6 py-4 whitespace-no-wrap bg-gray-300  rounded-lg text-md leading-5 font-medium text-gray-900">
-                Transferido em 12/01/2021 para João Silva
-              </li>
-              {/* Mais itens de histórico se necessário */}
+              {historicoTransferencias.map((transferencia, index) => (
+                <li key={index} className="px-6 mb-2 py-4 whitespace-no-wrap bg-gray-300 rounded-lg text-md leading-5 font-medium text-gray-900">
+                  Transferido em {transferencia.timestamp} para {transferencia?.nome}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
